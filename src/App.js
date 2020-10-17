@@ -1,24 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Router, Route, Switch } from 'react-router-dom';
+import Login from './pages/Login';
+import Home from './pages/Home';
+import history from './history';
+import Poll from './pages/Poll';
+import Administrator from './pages/Administrator';
 
-function App() {
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="ui container">
+      <Router history={history}>
+        <div>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/login" exact component={Login} />
+            <Route path="/poll/:id" exact component={Poll} />
+            <Route path="/admin" exact component={Administrator} />
+          </Switch>
+        </div>
+      </Router>
     </div>
   );
 }
