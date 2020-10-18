@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Grid, Checkbox, Icon } from 'semantic-ui-react';
+import { Container, Grid, Checkbox, Divider } from 'semantic-ui-react';
 import EditQuestion from '../components/EditQuestion';
 import history from '../history';
 import { getAuthorities } from '../util/CookieUtil';
@@ -12,7 +12,7 @@ const Question = (props) => {
 
     const renderOptionsList = () => {
         return optionList.map((option) => {
-            return <Answer option={option} setOption={answer} selectedOption={selectedOption} />
+            return <Answer option={option} setOption={answer} selectedOption={selectedOption} source={props.source} />
         });
     }
 
@@ -28,7 +28,7 @@ const Question = (props) => {
 
     return (
         <Container>
-            <Grid columns={1} divided>
+            <Grid columns={1}>
                 <Grid.Row>
                     <Grid.Column>
                         <div>
@@ -40,13 +40,11 @@ const Question = (props) => {
                     </Grid.Column>
                 </Grid.Row>
 
-                <Grid.Row >
+                <Grid.Row style={{ marginTop: '-2%' }}>
                     {renderOptionsList()}
                 </Grid.Row>
             </Grid>
-
-            <label>{props.text}</label>
-
+            <Divider section />
         </Container>
     )
 }
@@ -54,7 +52,12 @@ const Question = (props) => {
 const Answer = (props) => {
     return (
         <Grid.Column>
-            <Checkbox label={{ children: props.option.optionText }} value={props.option.id} checked={props.option.id === props.selectedOption} onClick={() => props.setOption(props.option.id)} />
+            {props.source === 'admin' ?
+                <Checkbox disabled label={{ children: props.option.optionText }} value={props.option.id} />
+                :
+                <Checkbox label={{ children: props.option.optionText }} value={props.option.id} checked={props.option.id === props.selectedOption} onClick={() => props.setOption(props.option.id)} />
+            }
+
         </Grid.Column>
     )
 }

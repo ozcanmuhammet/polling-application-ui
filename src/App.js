@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import history from './history';
 import Poll from './pages/Poll';
 import Administrator from './pages/Administrator';
+import Statistics from './pages/Statistics';
 
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
             <Route path="/login" exact component={Login} />
             <Route path="/poll/:id" exact component={Poll} />
             <Route path="/admin" exact component={Administrator} />
+            <Route path="/statistic" exact component={Statistics} />
           </Switch>
         </div>
       </Router>

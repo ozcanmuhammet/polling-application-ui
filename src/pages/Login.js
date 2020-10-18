@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { Button, Form, Grid, Segment } from 'semantic-ui-react'
-import pollingApi from '../apis/pollingApi';
+import { nonSecuredPollingApi } from '../apis/pollingApi';
 import { setToken, getToken } from '../util/CookieUtil';
 import history from '../history';
 
@@ -23,7 +23,7 @@ const LoginForm = () => {
             password
         }
 
-        pollingApi.post('/login', body).then(resp => {
+        nonSecuredPollingApi().post('/login', body).then(resp => {
             setToken(resp.data.token);
             history.push('/');
         });

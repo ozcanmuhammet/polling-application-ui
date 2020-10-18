@@ -10,6 +10,7 @@ import { getAuthorities, getUserId } from '../util/CookieUtil'
 
 const Poll = (props) => {
     const [pollQuestions, setPollQuestions] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(true);
     const [isAddQuestionOpen, setIsAddQuestionOpen] = useState(false);
     let answerMap = new Map();
 
@@ -18,26 +19,30 @@ const Poll = (props) => {
             history.push('/');
         }
         fetchPollQuestions();
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if (props.location.name === undefined || props.location.name === null) {
+            history.push('/');
+        }
+        fetchPollQuestions();
+    }, []);
 
     const setAnswer = (questionId, optionId) => {
-        answerMap.set(questionId, optionId)
+        answerMap.set(questionId, optionId);
     }
 
     const updatePoll = async (body) => {
-        debugger;
         const response = await pollingApi.post(`/questions`, body);
         if (response) {
             if (getAuthorities() === ADMIN_USER) {
+                setIsLoaded(false);
                 let tempPollQuestions = pollQuestions;
                 tempPollQuestions.push(response.data);
-                console.log(tempPollQuestions);
                 setPollQuestions(tempPollQuestions);
+                setIsLoaded(true);
             }
         }
-
-
-
     }
 
     const handleSubmit = async () => {
@@ -53,7 +58,9 @@ const Poll = (props) => {
         if (response.status === HTTP_OK) {
             //TODO
             //Success Message
+            history.push('/');
         }
+
     }
 
     const fetchPollQuestions = async () => {
@@ -65,10 +72,7 @@ const Poll = (props) => {
 
     const renderQuestionList = (pollQuestions) => {
         return pollQuestions.map((question, index) => {
-            return (
-                <div>
-                    <Question question={question} index={index} setAnswer={setAnswer} pollId={props.match.params.id} />
-                </div>);
+            return (<Question question={question} index={index} setAnswer={setAnswer} pollId={props.match.params.id} source={'poll'} />);
         });
     }
 
@@ -79,14 +83,16 @@ const Poll = (props) => {
                 <Header as='h3' textAlign='center'>
                     {props.location.name}
                 </Header>
-                {renderQuestionList(pollQuestions)}
+                {isLoaded ? renderQuestionList(pollQuestions) : null}
                 <br />
                 <div>
                     <Button primary onClick={handleSubmit}>Kaydet</Button>
                     <Button secondary onClick={() => history.push('/')}>Vazgeç</Button>
                 </div>
                 <br />
-                <AddQuestion pollId={props.match.params.id} updatePoll={updatePoll} onClick={() => { setIsAddQuestionOpen(!isAddQuestionOpen) }} />
+                <div style={{ position: 'relative', width: '100%' }}>
+                    <AddQuestion pollId={props.match.params.id} updatePoll={updatePoll} onClick={() => { setIsAddQuestionOpen(!isAddQuestionOpen) }} />
+                </div>
             </Container>
         </div>
 

@@ -30,8 +30,13 @@ const PollHeader = () => {
                                 onClick={() => history.push('/')}
                             />
                             {getAuthorities() === ADMIN_USER ? <Menu.Item
-                                name='Yönetim'
+                                name='Onay Bekleyenler'
                                 onClick={() => history.push('/admin')}
+                            /> : null}
+
+                            {getAuthorities() === ADMIN_USER ? <Menu.Item
+                                name='Istatistik'
+                                onClick={() => history.push('/statistic')}
                             /> : null}
 
                             <Menu.Item

@@ -58,7 +58,7 @@ const AddQuestion = (props) => {
             onClose={() => setOpen(false)}
             onOpen={() => setOpen(true)}
             open={open}
-            trigger={<Button circular style={{ float: 'right' }} icon='plus circle' />}
+            trigger={<Button circular style={{ margin: 'auto', display: 'block' }} icon='plus circle' />}
         >
             <Modal.Header>Soru Ekle</Modal.Header>
             <Modal.Content image>

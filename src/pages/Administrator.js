@@ -13,7 +13,7 @@ const Administrator = () => {
     }, [])
 
     const fetchPendingQuestionList = async () => {
-        const response = await pollingApi.get("/questions/pending");
+        const response = await pollingApi.get("/admin/questions/pending");
         if (response.status === HTTP_OK) {
             setPendingQuestionList(response.data);
         }
@@ -21,7 +21,7 @@ const Administrator = () => {
 
     const renderPendingQuestionItems = () => {
         return pendingQuestionList.map((question, index) => {
-            return <Question question={question} index={index} />
+            return <Question question={question} index={index} source={'admin'} />
         });
     }
 
