@@ -25,6 +25,9 @@ const LoginForm = () => {
 
         nonSecuredPollingApi().post('/login', body).then(resp => {
             setToken(resp.data.token);
+            setTimeout(() => {
+                window.location.href = "/";
+            }, 1000);
             history.push('/');
         });
     }
